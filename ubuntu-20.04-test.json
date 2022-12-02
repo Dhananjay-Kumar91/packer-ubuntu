@@ -1,0 +1,43 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "ubuntu-64",
+      "memory": 2048,
+      "cpus": 2,
+      "name": "ubuntu-20.04",
+      "iso_urls": [
+        "https://releases.ubuntu.com/20.04/ubuntu-20.04.5-live-server-amd64.iso"
+      ],
+      "iso_checksum": "5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4",
+
+      "http_directory": "http",
+      "output_directory": "output",
+
+      "boot_wait": "5s",
+      "boot_command": [
+        "<enter><enter><f6><esc><wait> ",
+        "autoinstall fsck.mode=skip ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
+        "<enter><wait>"
+      ],
+      "shutdown_command": "sudo shutdown -P now",
+
+      "ssh_username": "ubuntu",
+      "ssh_password": "ubuntu",
+      "ssh_pty": true,
+      "ssh_timeout": "60m",
+      "ssh_handshake_attempts": "500"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+          "./scripts/cleanup.sh"
+      ]
+    }
+  ]
+}

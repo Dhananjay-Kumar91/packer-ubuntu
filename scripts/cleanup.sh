@@ -100,3 +100,9 @@ rm -f /var/lib/systemd/random-seed
 echo "clear the history so our install isn't there"
 rm -f /root/.wget-hsts
 export HISTSIZE=0
+
+echo "Zero free space" 
+cat /dev/zero >zero.fill || echo "Fill completed"
+sleep 1; sync; sleep 1; /bin/rm -f zero.fill
+
+echo "Cleanup execution complete"

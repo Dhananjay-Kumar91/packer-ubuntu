@@ -3,8 +3,8 @@
         "type": "vmware-iso",
         "format": "ovf",
         "guest_os_type": "ubuntu-64",
-        "memory": 4096,
-        "cpus": 2,
+        "memory": 2048,
+        "cpus": 1,
         "name": "ubuntu-20.04",
         "iso_urls": [
             "https://releases.ubuntu.com/20.04/ubuntu-20.04.5-live-server-amd64.iso"
@@ -19,6 +19,11 @@
             "<enter><enter><f6><esc><wait> ",
             "autoinstall fsck.mode=skip ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
             "<enter><wait>"
+        ],
+        "vboxmanage_post": [
+            ["modifyvm", "{{.Name}}", "--memory", "4096"],
+            ["modifyvm", "{{.Name}}", "--cpus", "2"],
+            ["modifyvm", "{{.Name}}", "--nic1", "nat"]
         ],
         "shutdown_command": "sudo shutdown -P now",
         "ssh_username": "ubuntu",

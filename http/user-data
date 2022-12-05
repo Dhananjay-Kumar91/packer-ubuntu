@@ -5,6 +5,15 @@ autoinstall:
   keyboard:
     layout: en
     variant: us
+  network:
+    network:
+      version: 2
+      ethernets:
+        ens33:
+          dhcp4: true
+  storage:
+    layout:
+      name: lvm
   identity:
     hostname: ubuntu
     username: ubuntu
@@ -12,7 +21,7 @@ autoinstall:
   ssh:
     install-server: yes
   user-data:
-    disable_root:
+    disable_root: false
   early-commands:
     # otherwise packer tries to connect and exceed max attempts:
     - sudo systemctl stop ssh
